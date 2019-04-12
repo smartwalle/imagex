@@ -141,7 +141,7 @@ func (this *TextLayer) Render() image.Image {
 
 	var fontFace = truetype.NewFace(this.font, opt)
 
-	// 文字位置信息
+	// 文字位置及尺寸信息
 	var textPoint, textSize = this.textRect(fontFace, this.text)
 
 	var mLayer = image.NewRGBA(image.Rect(0, 0, this.size.Width, this.size.Height))
@@ -202,4 +202,18 @@ func (this *TextLayer) textRect(face font.Face, text string) (point Point, size 
 	var w = advance.Ceil()
 	var h = int(bounds.Max.Y.Ceil() - bounds.Min.Y.Ceil())
 	return Point{X: 0, Y: bounds.Min.Y.Ceil() * -1}, Size{Width: w, Height: h}
+}
+
+func (this *TextLayer) SizeToFit() Size {
+	var opt = &truetype.Options{}
+	opt.Size = this.fontSize
+	opt.DPI = this.dpi
+
+	var fontFace = truetype.NewFace(this.font, opt)
+
+	var _, textSize = this.textRect(fontFace, this.text)
+
+	this.SetSize(textSize.Width, textSize.Height)
+
+	return this.size
 }

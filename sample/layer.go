@@ -9,6 +9,13 @@ func main() {
 	l1.LoadImage("a.jpg")
 	l1.SizeToFit()
 
+	var l2 = image4go.NewTextLayer(100, 100)
+	l1.AddLayer(l2)
+	l2.LoadFont("ZCOOLKuaiLe-Regular.ttf")
+	l2.SetFontSize(24)
+	l2.SetText("SmartWalle@Copyright")
+	l2.SizeToFit()
+
 	//var l1 = image4go.NewBaseLayer(200, 200)
 	//l1.SetBackgroundColor(color.RGBA{0xff, 0x00, 0x00, 0xff})
 	//
