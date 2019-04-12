@@ -78,7 +78,7 @@ func calcRect(pRect, sRect image.Rectangle, alignment LayerAlignment, verticalAl
 		rect.Min.X = sRect.Min.X
 		rect.Max.X = sRect.Max.X
 	case LayerAlignmentLeft:
-		rect.Min.X = 0
+		rect.Min.X = pRect.Min.X
 		rect.Max.X = sWidth
 	case LayerAlignmentCenter:
 		var w = pWidth - sWidth
@@ -100,7 +100,7 @@ func calcRect(pRect, sRect image.Rectangle, alignment LayerAlignment, verticalAl
 		rect.Min.Y = sRect.Min.Y
 		rect.Max.Y = sRect.Max.Y
 	case LayerVerticalAlignmentTop:
-		rect.Min.Y = 0
+		rect.Min.Y = pRect.Min.Y
 		rect.Max.Y = sHeight
 	case LayerVerticalAlignmentMiddle:
 		var h = pHeight - sHeight

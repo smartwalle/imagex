@@ -15,7 +15,7 @@ func main() {
 	l2.SetFontSize(24)
 	l2.SetText("SmartWalle@Copyright")
 	l2.SizeToFit()
-	l2.SetAlignment(image4go.LayerAlignmentRight)
+	l2.SetAlignment(image4go.LayerAlignmentLeft)
 	l2.SetVerticalAlignment(image4go.LayerVerticalAlignmentBottom)
 
 	var l3 = image4go.NewImageLayer(0, 0)
