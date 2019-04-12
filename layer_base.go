@@ -7,10 +7,12 @@ import (
 )
 
 type BaseLayer struct {
-	point   Point
-	size    Size
-	layers  []Layer
-	bgColor color.Color
+	point             Point
+	size              Size
+	layers            []Layer
+	bgColor           color.Color
+	alignment         LayerAlignment
+	verticalAlignment LayerVerticalAlignment
 }
 
 func NewBaseLayer(width, height int) *BaseLayer {
@@ -57,7 +59,8 @@ func (this *BaseLayer) BackgroundColor() color.Color {
 }
 
 func (this *BaseLayer) Render() image.Image {
-	var mLayer = image.NewRGBA(image.Rect(0, 0, this.size.Width, this.size.Height))
+	var mRect = image.Rect(0, 0, this.size.Width, this.size.Height)
+	var mLayer = image.NewRGBA(mRect)
 
 	// 创建背景层
 	if this.bgColor != nil {
@@ -69,7 +72,8 @@ func (this *BaseLayer) Render() image.Image {
 	for _, layer := range this.layers {
 		var img = layer.Render()
 		if img != nil {
-			draw.Draw(mLayer, layer.Rect(), img, image.ZP, draw.Over)
+			var imgRect = calcRect(mRect, layer.Rect(), layer.Alignment(), layer.VerticalAlignment())
+			draw.Draw(mLayer, imgRect, img, image.ZP, draw.Over)
 		}
 	}
 	return mLayer
@@ -98,4 +102,20 @@ func (this *BaseLayer) Rect() image.Rectangle {
 	r.Max.X = this.point.X + this.size.Width
 	r.Max.Y = this.point.Y + this.size.Height
 	return r
+}
+
+func (this *BaseLayer) SetAlignment(alignment LayerAlignment) {
+	this.alignment = alignment
+}
+
+func (this *BaseLayer) Alignment() LayerAlignment {
+	return this.alignment
+}
+
+func (this *BaseLayer) SetVerticalAlignment(alignment LayerVerticalAlignment) {
+	this.verticalAlignment = alignment
+}
+
+func (this *BaseLayer) VerticalAlignment() LayerVerticalAlignment {
+	return this.verticalAlignment
 }

@@ -42,7 +42,8 @@ func (this *ImageLayer) LoadImage(file string) (err error) {
 }
 
 func (this *ImageLayer) Render() image.Image {
-	var mLayer = image.NewRGBA(image.Rect(0, 0, this.size.Width, this.size.Height))
+	var mRect = image.Rect(0, 0, this.size.Width, this.size.Height)
+	var mLayer = image.NewRGBA(mRect)
 
 	// 创建背景层
 	if this.bgColor != nil {
@@ -59,7 +60,8 @@ func (this *ImageLayer) Render() image.Image {
 	for _, layer := range this.layers {
 		var img = layer.Render()
 		if img != nil {
-			draw.Draw(mLayer, layer.Rect(), img, image.ZP, draw.Over)
+			var imgRect = calcRect(mRect, layer.Rect(), layer.Alignment(), layer.VerticalAlignment())
+			draw.Draw(mLayer, imgRect, img, image.ZP, draw.Over)
 		}
 	}
 	return mLayer

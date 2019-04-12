@@ -15,12 +15,16 @@ func main() {
 	l2.SetFontSize(24)
 	l2.SetText("SmartWalle@Copyright")
 	l2.SizeToFit()
+	l2.SetAlignment(image4go.LayerAlignmentRight)
+	l2.SetVerticalAlignment(image4go.LayerVerticalAlignmentBottom)
 
 	var l3 = image4go.NewImageLayer(0, 0)
 	l1.AddLayer(l3)
 	l3.LoadImage("walle.jpg")
 	l3.SizeToFit()
-	l3.SetPoint(200, 100)
+	l3.SetPoint(100, 100)
+	l3.SetAlignment(image4go.LayerAlignmentCenter)
+	l3.SetVerticalAlignment(image4go.LayerVerticalAlignmentDefault)
 
 	//var l1 = image4go.NewBaseLayer(200, 200)
 	//l1.SetBackgroundColor(color.RGBA{0xff, 0x00, 0x00, 0xff})
