@@ -214,10 +214,7 @@ func (this *TextLayer) SizeToFit() Size {
 	opt.DPI = this.dpi
 
 	var fontFace = truetype.NewFace(this.font, opt)
-
 	var _, textSize = this.textRect(fontFace, this.text)
-
 	this.SetSize(textSize.Width, textSize.Height)
-
 	return this.size
 }
