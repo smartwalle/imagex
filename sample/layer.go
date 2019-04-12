@@ -16,6 +16,12 @@ func main() {
 	l2.SetText("SmartWalle@Copyright")
 	l2.SizeToFit()
 
+	var l3 = image4go.NewImageLayer(0, 0)
+	l1.AddLayer(l3)
+	l3.LoadImage("walle.jpg")
+	l3.SizeToFit()
+	l3.SetPoint(200, 100)
+
 	//var l1 = image4go.NewBaseLayer(200, 200)
 	//l1.SetBackgroundColor(color.RGBA{0xff, 0x00, 0x00, 0xff})
 	//

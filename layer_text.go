@@ -12,18 +12,22 @@ import (
 	"os"
 )
 
-// 水平对齐
+// TextAlignment 水平对齐
+type TextAlignment int
+
+// TextVerticalAlignment 垂直对齐
+type TextVerticalAlignment int
+
 const (
-	TextAlignmentLeft   = 0 // default
-	TextAlignmentCenter = 1
-	TextAlignmentRight  = 2
+	TextAlignmentLeft TextAlignment = iota
+	TextAlignmentCenter
+	TextAlignmentRight
 )
 
-// 垂直对齐
 const (
-	TextAlignmentTop    = 0 // default
-	TextAlignmentMiddle = 1
-	TextAlignmentBottom = 2
+	TextVerticalAlignmentTop TextVerticalAlignment = iota
+	TextVerticalAlignmentMiddle
+	TextVerticalAlignmentBottom
 )
 
 type TextLayer struct {
@@ -33,8 +37,8 @@ type TextLayer struct {
 	fontSize              float64
 	textColor             color.Color
 	text                  string
-	textAlignment         int
-	textVerticalAlignment int
+	textAlignment         TextAlignment
+	textVerticalAlignment TextVerticalAlignment
 	bgImage               image.Image
 }
 
@@ -94,19 +98,19 @@ func (this *TextLayer) Text() string {
 	return this.text
 }
 
-func (this *TextLayer) SetTextAlignment(alignment int) {
+func (this *TextLayer) SetTextAlignment(alignment TextAlignment) {
 	this.textAlignment = alignment
 }
 
-func (this *TextLayer) TextAlignment() int {
+func (this *TextLayer) TextAlignment() TextAlignment {
 	return this.textAlignment
 }
 
-func (this *TextLayer) SetTextVerticalAlignment(alignment int) {
+func (this *TextLayer) SetTextVerticalAlignment(alignment TextVerticalAlignment) {
 	this.textVerticalAlignment = alignment
 }
 
-func (this *TextLayer) TextVerticalAlignment() int {
+func (this *TextLayer) TextVerticalAlignment() TextVerticalAlignment {
 	return this.textVerticalAlignment
 }
 
@@ -177,11 +181,11 @@ func (this *TextLayer) Render() image.Image {
 	}
 
 	switch this.textVerticalAlignment {
-	case TextAlignmentTop:
+	case TextVerticalAlignmentTop:
 		textY = 0
-	case TextAlignmentMiddle:
+	case TextVerticalAlignmentMiddle:
 		textY = (this.size.Height - textSize.Height) / 2
-	case TextAlignmentBottom:
+	case TextVerticalAlignmentBottom:
 		textY = this.size.Height - textSize.Height
 	default:
 		textY = 0
