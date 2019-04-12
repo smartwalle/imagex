@@ -64,3 +64,9 @@ func (this *ImageLayer) Render() image.Image {
 	}
 	return mLayer
 }
+
+func (this *ImageLayer) SizeToFit() Size {
+	var s = this.image.Bounds().Size()
+	this.SetSize(s.X, s.Y)
+	return this.size
+}
