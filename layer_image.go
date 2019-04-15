@@ -53,7 +53,7 @@ func (this *ImageLayer) Render() image.Image {
 
 	// 绘制图片
 	if this.image != nil {
-		draw.Draw(mLayer, image.Rect(0, 0, this.size.Width, this.size.Height), this.image, image.ZP, draw.Over)
+		draw.Draw(mLayer, mRect, this.image, image.ZP, draw.Over)
 	}
 
 	// 处理子 layer

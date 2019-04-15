@@ -148,7 +148,8 @@ func (this *TextLayer) Render() image.Image {
 	// 文字位置及尺寸信息
 	var textPoint, textSize = this.textRect(fontFace, this.text)
 
-	var mLayer = image.NewRGBA(image.Rect(0, 0, this.size.Width, this.size.Height))
+	var mRect = image.Rect(0, 0, this.size.Width, this.size.Height)
+	var mLayer = image.NewRGBA(mRect)
 	// 创建背景层
 	if this.bgColor != nil {
 		var bgLayer = image.NewUniform(this.bgColor)
