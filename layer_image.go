@@ -60,7 +60,7 @@ func (this *ImageLayer) Render() image.Image {
 	for _, layer := range this.layers {
 		var img = layer.Render()
 		if img != nil {
-			var imgRect = calcRect(mRect, layer.Rect(), layer.Alignment(), layer.VerticalAlignment())
+			var imgRect = calcRect(mRect, layer.Rect(), this.padding, layer.Alignment(), layer.VerticalAlignment())
 			draw.Draw(mLayer, imgRect, img, image.ZP, draw.Over)
 		}
 	}

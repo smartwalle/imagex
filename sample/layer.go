@@ -8,6 +8,7 @@ func main() {
 	var l1 = image4go.NewImageLayer(100, 100)
 	l1.LoadImage("a.jpg")
 	l1.SizeToFit()
+	l1.SetPadding(image4go.NewPadding(10, 20, 10, 20))
 
 	var l2 = image4go.NewTextLayer(100, 100)
 	l1.AddLayer(l2)
@@ -22,9 +23,9 @@ func main() {
 	l1.AddLayer(l3)
 	l3.LoadImage("walle.jpg")
 	l3.SizeToFit()
-	l3.SetPoint(100, 100)
-	l3.SetAlignment(image4go.LayerAlignmentCenter)
-	l3.SetVerticalAlignment(image4go.LayerVerticalAlignmentDefault)
+	l3.SetPoint(-10, 0)
+	//l3.SetAlignment(image4go.LayerAlignmentLeft)
+	//l3.SetVerticalAlignment(image4go.LayerVerticalAlignmentDefault)
 
 	//var l1 = image4go.NewBaseLayer(200, 200)
 	//l1.SetBackgroundColor(color.RGBA{0xff, 0x00, 0x00, 0xff})

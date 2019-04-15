@@ -9,6 +9,7 @@ import (
 type BaseLayer struct {
 	point             Point
 	size              Size
+	padding           Padding
 	layers            []Layer
 	bgColor           color.Color
 	alignment         LayerAlignment
@@ -72,7 +73,7 @@ func (this *BaseLayer) Render() image.Image {
 	for _, layer := range this.layers {
 		var img = layer.Render()
 		if img != nil {
-			var imgRect = calcRect(mRect, layer.Rect(), layer.Alignment(), layer.VerticalAlignment())
+			var imgRect = calcRect(mRect, layer.Rect(), this.padding, layer.Alignment(), layer.VerticalAlignment())
 			draw.Draw(mLayer, imgRect, img, image.ZP, draw.Over)
 		}
 	}
@@ -118,4 +119,12 @@ func (this *BaseLayer) SetVerticalAlignment(alignment LayerVerticalAlignment) {
 
 func (this *BaseLayer) VerticalAlignment() LayerVerticalAlignment {
 	return this.verticalAlignment
+}
+
+func (this *BaseLayer) SetPadding(p Padding) {
+	this.padding = p
+}
+
+func (this *BaseLayer) Padding() Padding {
+	return this.padding
 }

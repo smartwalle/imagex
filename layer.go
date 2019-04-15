@@ -61,6 +61,17 @@ func NewSize(width, height int) Size {
 	return Size{Width: width, Height: height}
 }
 
+type Padding struct {
+	Left   int
+	Right  int
+	Top    int
+	Bottom int
+}
+
+func NewPadding(left, right, top, bottom int) Padding {
+	return Padding{Left: left, Right: right, Top: top, Bottom: bottom}
+}
+
 func isNil(i interface{}) bool {
 	vi := reflect.ValueOf(i)
 	if vi.Kind() == reflect.Ptr {
@@ -69,7 +80,15 @@ func isNil(i interface{}) bool {
 	return false
 }
 
-func calcRect(pRect, sRect image.Rectangle, alignment LayerAlignment, verticalAlignment LayerVerticalAlignment) (rect image.Rectangle) {
+func calcRect(pRect, sRect image.Rectangle, padding Padding, alignment LayerAlignment, verticalAlignment LayerVerticalAlignment) (rect image.Rectangle) {
+	// 处理 padding
+	var left = padding.Left
+	var right = padding.Right
+	var top = padding.Top
+	var bottom = padding.Bottom
+	// 除去 padding 之后的大小
+	pRect = image.Rect(0, 0, pRect.Max.X-right-left, pRect.Max.Y-top-bottom)
+
 	var pWidth = pRect.Max.X - pRect.Min.X
 	var sWidth = sRect.Max.X - sRect.Min.X
 
@@ -113,6 +132,13 @@ func calcRect(pRect, sRect image.Rectangle, alignment LayerAlignment, verticalAl
 		rect.Min.Y = sRect.Min.Y
 		rect.Max.Y = sRect.Max.Y
 	}
+
+	// 修正 padding 区域
+	rect.Min.X += left
+	rect.Max.X += left
+	rect.Min.Y += top
+	rect.Max.Y += top
+
 	return rect
 }
 
