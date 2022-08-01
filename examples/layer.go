@@ -23,7 +23,7 @@ func main() {
 	l1.AddLayer(l3)
 	l3.LoadImage("walle.jpg")
 	l3.SizeToFit()
-	l3.SetPoint(-10, 0)
+	l3.SetPoint(0, 0)
 	//l3.SetAlignment(image4go.LayerAlignmentLeft)
 	//l3.SetVerticalAlignment(image4go.LayerVerticalAlignmentDefault)
 
