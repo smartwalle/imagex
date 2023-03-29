@@ -1,4 +1,4 @@
-package image4go
+package nimage
 
 import (
 	"image"
@@ -7,13 +7,13 @@ import (
 )
 
 type BaseLayer struct {
-	point             Point
-	size              Size
-	padding           Padding
-	layers            []Layer
-	bgColor           color.Color
-	alignment         LayerAlignment
-	verticalAlignment LayerVerticalAlignment
+	point               Point
+	size                Size
+	padding             Padding
+	layers              []Layer
+	bgColor             color.Color
+	horizontalAlignment HorizontalAlignment
+	verticalAlignment   VerticalAlignment
 }
 
 func NewBaseLayer(width, height int) *BaseLayer {
@@ -73,7 +73,7 @@ func (this *BaseLayer) Render() image.Image {
 	for _, layer := range this.layers {
 		var img = layer.Render()
 		if img != nil {
-			var imgRect = calcRect(mRect, layer.Rect(), this.padding, layer.Alignment(), layer.VerticalAlignment())
+			var imgRect = calcRect(mRect, layer.Rect(), this.padding, layer.HorizontalAlignment(), layer.VerticalAlignment())
 			draw.Draw(mLayer, imgRect, img, image.ZP, draw.Over)
 		}
 	}
@@ -105,19 +105,19 @@ func (this *BaseLayer) Rect() image.Rectangle {
 	return r
 }
 
-func (this *BaseLayer) SetAlignment(alignment LayerAlignment) {
-	this.alignment = alignment
+func (this *BaseLayer) SetHorizontalAlignment(alignment HorizontalAlignment) {
+	this.horizontalAlignment = alignment
 }
 
-func (this *BaseLayer) Alignment() LayerAlignment {
-	return this.alignment
+func (this *BaseLayer) HorizontalAlignment() HorizontalAlignment {
+	return this.horizontalAlignment
 }
 
-func (this *BaseLayer) SetVerticalAlignment(alignment LayerVerticalAlignment) {
+func (this *BaseLayer) SetVerticalAlignment(alignment VerticalAlignment) {
 	this.verticalAlignment = alignment
 }
 
-func (this *BaseLayer) VerticalAlignment() LayerVerticalAlignment {
+func (this *BaseLayer) VerticalAlignment() VerticalAlignment {
 	return this.verticalAlignment
 }
 

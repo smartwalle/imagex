@@ -1,4 +1,4 @@
-package image4go
+package nimage
 
 import (
 	"bufio"
@@ -9,38 +9,18 @@ import (
 	"reflect"
 )
 
-// LayerAlignment 水平对齐
-type LayerAlignment int
-
-// LayerVerticalAlignment 垂直对齐
-type LayerVerticalAlignment int
-
-const (
-	LayerAlignmentDefault LayerAlignment = iota
-	LayerAlignmentLeft
-	LayerAlignmentCenter
-	LayerAlignmentRight
-)
-
-const (
-	LayerVerticalAlignmentDefault LayerVerticalAlignment = iota
-	LayerVerticalAlignmentTop
-	LayerVerticalAlignmentMiddle
-	LayerVerticalAlignmentBottom
-)
-
 type Layer interface {
 	Render() image.Image
 
 	Rect() image.Rectangle
 
-	SetAlignment(alignment LayerAlignment)
+	SetHorizontalAlignment(alignment HorizontalAlignment)
 
-	Alignment() LayerAlignment
+	HorizontalAlignment() HorizontalAlignment
 
-	SetVerticalAlignment(alignment LayerVerticalAlignment)
+	SetVerticalAlignment(alignment VerticalAlignment)
 
-	VerticalAlignment() LayerVerticalAlignment
+	VerticalAlignment() VerticalAlignment
 }
 
 type Point struct {
@@ -80,7 +60,7 @@ func isNil(i interface{}) bool {
 	return false
 }
 
-func calcRect(pRect, sRect image.Rectangle, padding Padding, alignment LayerAlignment, verticalAlignment LayerVerticalAlignment) (rect image.Rectangle) {
+func calcRect(pRect, sRect image.Rectangle, padding Padding, horizontalAlignment HorizontalAlignment, verticalAlignment VerticalAlignment) (rect image.Rectangle) {
 	// 处理 padding
 	var left = padding.Left
 	var right = padding.Right
@@ -92,18 +72,18 @@ func calcRect(pRect, sRect image.Rectangle, padding Padding, alignment LayerAlig
 	var pWidth = pRect.Max.X - pRect.Min.X
 	var sWidth = sRect.Max.X - sRect.Min.X
 
-	switch alignment {
-	case LayerAlignmentDefault:
+	switch horizontalAlignment {
+	case HorizontalAlignmentDefault:
 		rect.Min.X = sRect.Min.X
 		rect.Max.X = sRect.Max.X
-	case LayerAlignmentLeft:
+	case HorizontalAlignmentLeft:
 		rect.Min.X = pRect.Min.X
 		rect.Max.X = sWidth
-	case LayerAlignmentCenter:
+	case HorizontalAlignmentCenter:
 		var w = pWidth - sWidth
 		rect.Min.X = w / 2
 		rect.Max.X = rect.Min.X + sWidth
-	case LayerAlignmentRight:
+	case HorizontalAlignmentRight:
 		rect.Min.X = pWidth - sWidth
 		rect.Max.X = rect.Min.X + sWidth
 	default:
@@ -115,17 +95,17 @@ func calcRect(pRect, sRect image.Rectangle, padding Padding, alignment LayerAlig
 	var sHeight = sRect.Max.Y - sRect.Min.Y
 
 	switch verticalAlignment {
-	case LayerVerticalAlignmentDefault:
+	case VerticalAlignmentDefault:
 		rect.Min.Y = sRect.Min.Y
 		rect.Max.Y = sRect.Max.Y
-	case LayerVerticalAlignmentTop:
+	case VerticalAlignmentTop:
 		rect.Min.Y = pRect.Min.Y
 		rect.Max.Y = sHeight
-	case LayerVerticalAlignmentMiddle:
+	case VerticalAlignmentMiddle:
 		var h = pHeight - sHeight
 		rect.Min.Y = h / 2
 		rect.Max.Y = rect.Min.Y + sHeight
-	case LayerVerticalAlignmentBottom:
+	case VerticalAlignmentBottom:
 		rect.Min.Y = pHeight - sHeight
 		rect.Max.Y = rect.Min.Y + sHeight
 	default:

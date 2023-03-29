@@ -1,4 +1,4 @@
-package image4go
+package nimage
 
 //
 //import (

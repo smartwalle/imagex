@@ -1,4 +1,4 @@
-package image4go
+package nimage
 
 import (
 	"github.com/golang/freetype"
@@ -12,34 +12,14 @@ import (
 	"os"
 )
 
-// TextAlignment 水平对齐
-type TextAlignment int
-
-// TextVerticalAlignment 垂直对齐
-type TextVerticalAlignment int
-
-const (
-	TextAlignmentLeft TextAlignment = iota
-	TextAlignmentCenter
-	TextAlignmentRight
-)
-
-const (
-	TextVerticalAlignmentTop TextVerticalAlignment = iota
-	TextVerticalAlignmentMiddle
-	TextVerticalAlignmentBottom
-)
-
 type TextLayer struct {
 	*BaseLayer
-	font                  *truetype.Font
-	dpi                   float64
-	fontSize              float64
-	textColor             color.Color
-	text                  string
-	textAlignment         TextAlignment
-	textVerticalAlignment TextVerticalAlignment
-	bgImage               image.Image
+	font      *truetype.Font
+	dpi       float64
+	fontSize  float64
+	textColor color.Color
+	text      string
+	bgImage   image.Image
 }
 
 func NewTextLayer(width, height int) *TextLayer {
@@ -98,22 +78,6 @@ func (this *TextLayer) Text() string {
 	return this.text
 }
 
-func (this *TextLayer) SetTextAlignment(alignment TextAlignment) {
-	this.textAlignment = alignment
-}
-
-func (this *TextLayer) TextAlignment() TextAlignment {
-	return this.textAlignment
-}
-
-func (this *TextLayer) SetTextVerticalAlignment(alignment TextVerticalAlignment) {
-	this.textVerticalAlignment = alignment
-}
-
-func (this *TextLayer) TextVerticalAlignment() TextVerticalAlignment {
-	return this.textVerticalAlignment
-}
-
 func (this *TextLayer) SetBackgroundImage(nImage image.Image) {
 	this.bgImage = nImage
 }
@@ -170,23 +134,27 @@ func (this *TextLayer) Render() image.Image {
 	var textX = 0
 	var textY = 0
 
-	switch this.textAlignment {
-	case TextAlignmentLeft:
+	switch this.horizontalAlignment {
+	case HorizontalAlignmentDefault:
 		textX = 0
-	case TextAlignmentCenter:
+	case HorizontalAlignmentLeft:
+		textX = 0
+	case HorizontalAlignmentCenter:
 		textX = (this.size.Width - textSize.Width) / 2
-	case TextAlignmentRight:
+	case HorizontalAlignmentRight:
 		textX = this.size.Width - textSize.Width
 	default:
 		textX = 0
 	}
 
-	switch this.textVerticalAlignment {
-	case TextVerticalAlignmentTop:
+	switch this.verticalAlignment {
+	case VerticalAlignmentDefault:
 		textY = 0
-	case TextVerticalAlignmentMiddle:
+	case VerticalAlignmentTop:
+		textY = 0
+	case VerticalAlignmentMiddle:
 		textY = (this.size.Height - textSize.Height) / 2
-	case TextVerticalAlignmentBottom:
+	case VerticalAlignmentBottom:
 		textY = this.size.Height - textSize.Height
 	default:
 		textY = 0
@@ -205,7 +173,7 @@ func (this *TextLayer) Render() image.Image {
 func (this *TextLayer) textRect(face font.Face, text string) (point Point, size Size) {
 	var bounds, advance = font.BoundString(face, text)
 	var w = advance.Ceil()
-	var h = int(bounds.Max.Y.Ceil() - bounds.Min.Y.Ceil())
+	var h = bounds.Max.Y.Ceil() - bounds.Min.Y.Ceil()
 	return Point{X: 0, Y: bounds.Min.Y.Ceil() * -1}, Size{Width: w, Height: h}
 }
 
