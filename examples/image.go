@@ -68,6 +68,6 @@ func main() {
 	//l5.SetBackgroundColor(nil)
 	//l1.AddLayer(l5)
 
-	imagex.WriteToPNG(l1, "image_out.png")
+	imagex.WritePNG(l1, "image_out.png")
 	//fmt.Println(l5.Rect())
 }

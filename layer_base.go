@@ -24,107 +24,107 @@ func NewBaseLayer(width, height int) *BaseLayer {
 	return l
 }
 
-func (this *BaseLayer) AddLayer(layer Layer) {
+func (l *BaseLayer) AddLayer(layer Layer) {
 	if isNil(layer) {
 		return
 	}
-	this.layers = append(this.layers, layer)
+	l.layers = append(l.layers, layer)
 }
 
-func (this *BaseLayer) RemoveLayer(layer Layer) {
+func (l *BaseLayer) RemoveLayer(layer Layer) {
 	if isNil(layer) {
 		return
 	}
 
 	var index = -1
-	for i, l := range this.layers {
-		if l == layer {
+	for i, ele := range l.layers {
+		if ele == layer {
 			index = i
 		}
 	}
 
 	if index > -1 {
-		this.layers = append(this.layers[:index], this.layers[index+1:]...)
+		l.layers = append(l.layers[:index], l.layers[index+1:]...)
 	}
 }
 
-func (this *BaseLayer) SetBackgroundColor(bgColor color.Color) {
-	this.bgColor = bgColor
-	if this.bgColor == nil {
-		this.bgColor = color.Transparent
+func (l *BaseLayer) SetBackgroundColor(bgColor color.Color) {
+	l.bgColor = bgColor
+	if l.bgColor == nil {
+		l.bgColor = color.Transparent
 	}
 }
 
-func (this *BaseLayer) BackgroundColor() color.Color {
-	return this.bgColor
+func (l *BaseLayer) BackgroundColor() color.Color {
+	return l.bgColor
 }
 
-func (this *BaseLayer) Render() image.Image {
-	var mRect = image.Rect(0, 0, this.size.Width, this.size.Height)
+func (l *BaseLayer) Render() image.Image {
+	var mRect = image.Rect(0, 0, l.size.Width, l.size.Height)
 	var mLayer = image.NewRGBA(mRect)
 
 	// 创建背景层
-	if this.bgColor != nil {
-		var bgLayer = image.NewUniform(this.bgColor)
-		draw.Draw(mLayer, mLayer.Bounds(), bgLayer, image.ZP, draw.Src)
+	if l.bgColor != nil {
+		var bgLayer = image.NewUniform(l.bgColor)
+		draw.Draw(mLayer, mLayer.Bounds(), bgLayer, image.Point{}, draw.Src)
 	}
 
 	// 处理子 layer
-	for _, layer := range this.layers {
+	for _, layer := range l.layers {
 		var img = layer.Render()
 		if img != nil {
-			var imgRect = calcRect(mRect, layer.Rect(), this.padding, layer.HorizontalAlignment(), layer.VerticalAlignment())
-			draw.Draw(mLayer, imgRect, img, image.ZP, draw.Over)
+			var imgRect = calcRect(mRect, layer.Rect(), l.padding, layer.HorizontalAlignment(), layer.VerticalAlignment())
+			draw.Draw(mLayer, imgRect, img, image.Point{}, draw.Over)
 		}
 	}
 	return mLayer
 }
 
-func (this *BaseLayer) SetPoint(x, y int) {
-	this.point = Point{X: x, Y: y}
+func (l *BaseLayer) SetPoint(x, y int) {
+	l.point = Point{X: x, Y: y}
 }
 
-func (this *BaseLayer) Point() Point {
-	return this.point
+func (l *BaseLayer) Point() Point {
+	return l.point
 }
 
-func (this *BaseLayer) SetSize(width, height int) {
-	this.size = Size{Width: width, Height: height}
+func (l *BaseLayer) SetSize(width, height int) {
+	l.size = Size{Width: width, Height: height}
 }
 
-func (this *BaseLayer) Size() Size {
-	return this.size
+func (l *BaseLayer) Size() Size {
+	return l.size
 }
 
-func (this *BaseLayer) Rect() image.Rectangle {
+func (l *BaseLayer) Rect() image.Rectangle {
 	var r = image.Rectangle{}
-	r.Min.X = this.point.X
-	r.Min.Y = this.point.Y
-	r.Max.X = this.point.X + this.size.Width
-	r.Max.Y = this.point.Y + this.size.Height
+	r.Min.X = l.point.X
+	r.Min.Y = l.point.Y
+	r.Max.X = l.point.X + l.size.Width
+	r.Max.Y = l.point.Y + l.size.Height
 	return r
 }
 
-func (this *BaseLayer) SetHorizontalAlignment(alignment HorizontalAlignment) {
-	this.horizontalAlignment = alignment
+func (l *BaseLayer) SetHorizontalAlignment(alignment HorizontalAlignment) {
+	l.horizontalAlignment = alignment
 }
 
-func (this *BaseLayer) HorizontalAlignment() HorizontalAlignment {
-	return this.horizontalAlignment
+func (l *BaseLayer) HorizontalAlignment() HorizontalAlignment {
+	return l.horizontalAlignment
 }
 
-func (this *BaseLayer) SetVerticalAlignment(alignment VerticalAlignment) {
-	this.verticalAlignment = alignment
+func (l *BaseLayer) SetVerticalAlignment(alignment VerticalAlignment) {
+	l.verticalAlignment = alignment
 }
 
-func (this *BaseLayer) VerticalAlignment() VerticalAlignment {
-	return this.verticalAlignment
+func (l *BaseLayer) VerticalAlignment() VerticalAlignment {
+	return l.verticalAlignment
 }
 
-func (this *BaseLayer) SetPadding(p Padding) {
-	this.padding = p
+func (l *BaseLayer) SetPadding(p Padding) {
+	l.padding = p
 }
 
-func (this *BaseLayer) Padding() Padding {
-	return this.padding
+func (l *BaseLayer) Padding() Padding {
+	return l.padding
 }

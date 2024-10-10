@@ -122,32 +122,32 @@ func calcRect(pRect, sRect image.Rectangle, padding Padding, horizontalAlignment
 	return rect
 }
 
-func WriteToPNG(l Layer, file string) (err error) {
+func WritePNG(layer Layer, file string) (err error) {
 	nFile, err := os.Create(file)
 	if err != nil {
 		return err
 	}
 	defer nFile.Close()
 
-	b := bufio.NewWriter(nFile)
+	var writer = bufio.NewWriter(nFile)
 
-	if err = png.Encode(nFile, l.Render()); err != nil {
+	if err = png.Encode(writer, layer.Render()); err != nil {
 		return err
 	}
-	return b.Flush()
+	return writer.Flush()
 }
 
-func WriteToJPEG(l Layer, file string, quality int) (err error) {
+func WriteJPEG(layer Layer, file string, quality int) (err error) {
 	nFile, err := os.Create(file)
 	if err != nil {
 		return err
 	}
 	defer nFile.Close()
 
-	b := bufio.NewWriter(nFile)
+	var writer = bufio.NewWriter(nFile)
 
-	if err = jpeg.Encode(nFile, l.Render(), &jpeg.Options{Quality: quality}); err != nil {
+	if err = jpeg.Encode(writer, layer.Render(), &jpeg.Options{Quality: quality}); err != nil {
 		return err
 	}
-	return b.Flush()
+	return writer.Flush()
 }
