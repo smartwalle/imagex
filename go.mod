@@ -1,4 +1,4 @@
-module github.com/smartwalle/nimage
+module github.com/smartwalle/imagex
 
 go 1.12
 

@@ -1,4 +1,4 @@
-package nimage
+package imagex
 
 // HorizontalAlignment 水平对齐
 type HorizontalAlignment int

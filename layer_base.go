@@ -1,4 +1,4 @@
-package nimage
+package imagex
 
 import (
 	"image"
